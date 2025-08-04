@@ -1,31 +1,41 @@
 package main
 
 import (
-	"log"
+	"fmt"
+	"os"
 
-	"github.com/sojebsikder/go-mirror/internal/github"
-	"github.com/sojebsikder/go-mirror/internal/mirror"
-	"github.com/sojebsikder/go-mirror/pkg/utils"
+	"github.com/sojebsikder/go-mirror/cmd"
 )
 
+var version = "0.0.1"
+
+func showUsage() {
+	fmt.Println("Usage:")
+	fmt.Println("  mirror start")
+	fmt.Println()
+	fmt.Println("  mirror help")
+	fmt.Println("  mirror version")
+	fmt.Println()
+}
+
 func main() {
-	config, err := utils.LoadEnv()
-	if err != nil {
-		log.Fatal(err)
+	if len(os.Args) < 2 {
+		showUsage()
+		return
 	}
 
-	repos, err := github.FetchRepos(config.GitHubUsername, config.GitHubToken)
-	if err != nil {
-		log.Fatal(err)
-	}
+	cmdName := os.Args[1]
 
-	for _, repo := range repos {
-		if repo.Fork || repo.Archived {
-			continue
-		}
-
-		if err := mirror.CloneAndPush(repo, config); err != nil {
-			log.Printf("Error processing repo %s: %v", repo.Name, err)
-		}
+	switch cmdName {
+	case "start":
+		cmd.Mirror()
+	case "help":
+		showUsage()
+	case "version":
+		fmt.Println("mirror version " + version)
+	default:
+		fmt.Println("Unknown command:", cmdName)
+		fmt.Println("Use 'mirror help' to see available commands.")
+		os.Exit(1)
 	}
 }
