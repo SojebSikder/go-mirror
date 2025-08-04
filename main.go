@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/sojebsikder/go-mirror/github"
-	"github.com/sojebsikder/go-mirror/mirror"
-	"github.com/sojebsikder/go-mirror/utils"
+	"github.com/sojebsikder/go-mirror/internal/github"
+	"github.com/sojebsikder/go-mirror/internal/mirror"
+	"github.com/sojebsikder/go-mirror/pkg/utils"
 )
 
 func main() {

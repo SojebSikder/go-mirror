@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/sojebsikder/go-mirror/mirror"
+	"github.com/sojebsikder/go-mirror/internal/mirror"
 )
 
 func LoadEnv() (mirror.Config, error) {

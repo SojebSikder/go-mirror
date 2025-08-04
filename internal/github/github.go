@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/sojebsikder/go-mirror/mirror"
+	"github.com/sojebsikder/go-mirror/internal/mirror"
 )
 
 func FetchRepos(username, token string) ([]mirror.Repo, error) {
