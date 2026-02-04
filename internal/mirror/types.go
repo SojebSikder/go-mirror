@@ -13,4 +13,5 @@ type Config struct {
 	RemoteURL      string
 	RemoteUser     string
 	RemoteToken    string
+	Push           bool
 }

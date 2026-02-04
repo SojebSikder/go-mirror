@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func CloneAndPush(repo Repo, cfg Config) error {
+func CloneAndPush(repo Repo, cfg Config, push bool) error {
 	name := repo.Name
 	dir := name + ".git"
 
@@ -30,21 +30,23 @@ func CloneAndPush(repo Repo, cfg Config) error {
 		}
 	}
 
-	pushURL := fmt.Sprintf("https://%s:%s@%s/%s/%s.git",
-		cfg.RemoteUser,
-		cfg.RemoteToken,
-		strings.TrimPrefix(cfg.RemoteURL, "https://"),
-		cfg.RemoteUser,
-		name,
-	)
-	fmt.Println("Pushing to:", strings.Replace(pushURL, cfg.RemoteToken, "********", 1))
+	if push {
+		pushURL := fmt.Sprintf("https://%s:%s@%s/%s/%s.git",
+			cfg.RemoteUser,
+			cfg.RemoteToken,
+			strings.TrimPrefix(cfg.RemoteURL, "https://"),
+			cfg.RemoteUser,
+			name,
+		)
+		fmt.Println("Pushing to:", strings.Replace(pushURL, cfg.RemoteToken, "********", 1))
 
-	pushCmd := exec.Command("git", "push", "--mirror", pushURL)
-	pushCmd.Dir = dir
-	pushCmd.Stdout = os.Stdout
-	pushCmd.Stderr = os.Stderr
-	if err := pushCmd.Run(); err != nil {
-		return fmt.Errorf("push failed: %w", err)
+		pushCmd := exec.Command("git", "push", "--mirror", pushURL)
+		pushCmd.Dir = dir
+		pushCmd.Stdout = os.Stdout
+		pushCmd.Stderr = os.Stderr
+		if err := pushCmd.Run(); err != nil {
+			return fmt.Errorf("push failed: %w", err)
+		}
 	}
 
 	return nil

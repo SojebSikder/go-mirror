@@ -20,6 +20,7 @@ func LoadEnv() (mirror.Config, error) {
 		RemoteURL:      os.Getenv("GIT_REMOTE_URL"),
 		RemoteUser:     os.Getenv("GIT_REMOTE_USER"),
 		RemoteToken:    os.Getenv("GIT_REMOTE_TOKEN"),
+		Push:           os.Getenv("PUSH") == "true",
 	}
 
 	if config.GitHubUsername == "" || config.GitHubToken == "" || config.RemoteURL == "" {
