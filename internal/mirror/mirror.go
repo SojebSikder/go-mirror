@@ -9,11 +9,16 @@ import (
 
 func CloneAndPush(repo Repo, cfg Config, push bool) error {
 	name := repo.Name
-	dir := name + ".git"
+	dir := "repository/" + name + ".git"
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		fmt.Println("Cloning:", name)
-		cloneCmd := exec.Command("git", "clone", "--mirror", repo.CloneURL, dir)
+		var cloneCmd *exec.Cmd
+		if push {
+			cloneCmd = exec.Command("git", "clone", "--mirror", repo.CloneURL, dir)
+		} else {
+			cloneCmd = exec.Command("git", "clone", repo.CloneURL, dir)
+		}
 		cloneCmd.Stdout = os.Stdout
 		cloneCmd.Stderr = os.Stderr
 		if err := cloneCmd.Run(); err != nil {

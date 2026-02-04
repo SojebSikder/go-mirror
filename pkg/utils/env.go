@@ -23,7 +23,7 @@ func LoadEnv() (mirror.Config, error) {
 		Push:           os.Getenv("PUSH") == "true",
 	}
 
-	if config.GitHubUsername == "" || config.GitHubToken == "" || config.RemoteURL == "" {
+	if config.GitHubUsername == "" || config.GitHubToken == "" {
 		return config, fmt.Errorf("missing required environment variables")
 	}
 

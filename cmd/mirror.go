@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
@@ -23,6 +24,9 @@ func Mirror() {
 	const maxWorkers = 5 // tune based on CPU/network
 	repoCh := make(chan mirror.Repo)
 	var wg sync.WaitGroup
+
+	// show total repos
+	fmt.Printf("Total repos to mirror: %d\n", len(repos))
 
 	// workers
 	for i := 0; i < maxWorkers; i++ {
