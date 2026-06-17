@@ -9,7 +9,7 @@ import (
 
 func CloneAndPush(repo Repo, cfg Config, push bool) error {
 	name := repo.Name
-	dir := "repository/" + name + ".git"
+	dir := "repositories/" + name + ".git"
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		fmt.Println("Cloning:", name)

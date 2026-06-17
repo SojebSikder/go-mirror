@@ -3,6 +3,7 @@ package github
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/sojebsikder/go-mirror/internal/mirror"
@@ -22,6 +23,12 @@ func FetchRepos(username, token string) ([]mirror.Repo, error) {
 			return nil, err
 		}
 		defer resp.Body.Close()
+
+		// check if the response status is not OK
+		if resp.StatusCode != http.StatusOK {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			return nil, fmt.Errorf("GitHub API returned status %s: %s", resp.Status, string(bodyBytes))
+		}
 
 		var repos []mirror.Repo
 		if err := json.NewDecoder(resp.Body).Decode(&repos); err != nil {
